@@ -1,4 +1,14 @@
-focussearch = function(f, par.set, control, ...) {
+#' @title Run focus search.
+#'
+#' @description
+#' fooo
+#'
+#' @template arg_fn
+#' @template arg_parset
+#' @template arg_control
+#' @return [\code{\link{ParamSet}}]
+#' @export
+focussearch = function(fn, par.set, control, ...) {
   assertClass(par.set, "ParamSet")
   assertClass(control, "FocusSearchControl")
   global.y = Inf

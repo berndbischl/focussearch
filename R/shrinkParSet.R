@@ -1,3 +1,12 @@
+#' @title Shrink param set towards a point.
+#'
+#' @description
+#' fooo
+#'
+#' @template arg_parset
+#' @template arg_control
+#' @return [\code{\link{ParamSet}}]
+#' @export
 shrinkParSet = function(par.set, x.df) {
   x.list = dfRowToList(x.df, par.set, 1L)
   # print(x.list)

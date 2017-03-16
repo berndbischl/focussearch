@@ -1,4 +1,16 @@
-doRandomSearch = function(f, par.set, control, ...) {
+#' @title Run a random search.
+#'
+#' @description
+#' fooo
+#'
+#' @template arg_fn
+#' @template arg_parset
+#' @template arg_control
+#' @return [\code{list}]. 
+#'   \item{x [list]}{s}
+#'   \item{y [numeric]}{s}
+#' @export
+doRandomSearch = function(fn, par.set, control, ...) {
   # predict on design where NAs were imputed, but return proposed points with NAs
   newdesign = generateDesign(control$points, par.set, randomLHS)
 
