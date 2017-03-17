@@ -13,6 +13,7 @@
 #'   Number of independent restarts.
 #'   Default is 1.
 #' @return [\code{\link{FocusSearchControl}}]
+#' @aliases FocusSearchControl
 #' @export
 makeFocusSearchControl = function(points = 100L, maxit = 1L, restarts = 1L) {
   points = asInt(points)

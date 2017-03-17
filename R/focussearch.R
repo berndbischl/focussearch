@@ -6,6 +6,8 @@
 #' @template arg_fn
 #' @template arg_parset
 #' @template arg_control
+#' @param \ldots [any]\cr
+#'   Passed to \code{fn}.
 #' @return [\code{\link{ParamSet}}]
 #' @export
 focussearch = function(fn, par.set, control, ...) {

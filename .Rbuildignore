@@ -1,0 +1,13 @@
+src/*.o
+src/*.so
+^.*tar.gz$
+^.*\.swp$
+.gitignore
+.travis.yml
+README.md
+appveyor
+todo.txt
+todo-files
+^.editorconfig$
+^.*\.Rproj$
+^\.Rproj\.user$

@@ -4,7 +4,6 @@
 #' fooo
 #'
 #' @template arg_parset
-#' @template arg_control
 #' @return [\code{\link{ParamSet}}]
 #' @export
 shrinkParSet = function(par.set, x.df) {

@@ -6,13 +6,15 @@
 #' @template arg_fn
 #' @template arg_parset
 #' @template arg_control
+#' @param \ldots [any]\cr
+#'   Passed to \code{fn}.
 #' @return [\code{list}]. 
 #'   \item{x [list]}{s}
 #'   \item{y [numeric]}{s}
 #' @export
 doRandomSearch = function(fn, par.set, control, ...) {
   # predict on design where NAs were imputed, but return proposed points with NAs
-  newdesign = generateDesign(control$points, par.set, randomLHS)
+  newdesign = generateRandomDesign(control$points, par.set)
 
   # convert to param encoding our model was trained on and can use
   newdesign = convertDataFrameCols(newdesign, ints.as.num = TRUE, logicals.as.factor = TRUE)
