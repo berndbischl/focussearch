@@ -1,19 +1,19 @@
 #' @title Shrink param set towards a point.
 #'
 #' @description
-#' fooo
+#' Shrinks a paramset towards the best found point.
+#' Numeric values are shrinked to an interval around the best obtained value of half of
+#' the previous length in each iteration, while for discrete variables, a random, 
+#' not best-performing level is dropped.
 #'
 #' @template arg_parset
 #' @return [\code{\link{ParamSet}}]
 #' @export
 shrinkParSet = function(par.set, x.df) {
   x.list = dfRowToList(x.df, par.set, 1L)
-  # print(x.list)
   par.set$pars = lapply(par.set$pars, function(par) {
     # only shrink when there is a value
     val = x.list[[par$id]]
-    # print(val)
-    # print(par)
     if (!isScalarNA(val)) {
       if (isNumeric(par)) {
         # shrink to range / 2, centered at val
@@ -35,7 +35,6 @@ shrinkParSet = function(par.set, x.df) {
         }
       }
     }
-    # print(par)
     return(par)
   })
   return(par.set)

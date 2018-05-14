@@ -18,7 +18,7 @@ doRandomSearch = function(fn, par.set, control, ...) {
 
   # convert to param encoding our model was trained on and can use
   newdesign = convertDataFrameCols(newdesign, ints.as.num = TRUE, logicals.as.factor = TRUE)
-  y = f(newdesign, ...)
+  y = fn(newdesign, ...)
 
   # get current best value
   best.index = getMinIndex(y, ties.method = "random")

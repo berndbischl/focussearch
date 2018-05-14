@@ -1,7 +1,6 @@
 Package: focussearch
-Title: Miscellaneous Helper Functions for B. Bischl
-Description: Miscellaneous helper functions for and from B. Bischl and
-    some other guys, mainly for package development.
+Title: Global optimization using focussed random search.
+Description: Global optimization of arbitrary discrete and numeric functions using focussed random search.
 Authors@R: c(person("Bernd", "Bischl", email = "bernd_bischl@gmx.net",
     role = c("aut", "cre")))
 URL: https://github.com/berndbischl/focussearch

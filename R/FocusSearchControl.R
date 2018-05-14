@@ -1,7 +1,8 @@
 #' @title Create control object for focus search.
 #'
 #' @description
-#' fooo
+#' Creates a control object to be used with (`focussearch`). 
+#' See __Arguments__ for further details.
 #'
 #' @param points [\code{integer(1)}]\cr
 #'   Number of points for each random search.
