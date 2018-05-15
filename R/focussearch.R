@@ -32,7 +32,6 @@
 #' doRandomSearch(fn, ps, ctrl)
 #' # Mixed space  
 #' f = smoof::makeSwiler2014Function()
-#' fn = function(x) sapply(convertRowsToList(x, name.vector = TRUE), f)
 #' ctrl = makeFocusSearchControl(maxit = 5, restarts = 3, points = 100)
 #' ps = makeParamSet(
 #'   makeDiscreteParam("x1", values = as.character(1:5)),
