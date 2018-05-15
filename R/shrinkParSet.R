@@ -11,6 +11,7 @@
 #' @export
 shrinkParSet = function(par.set, x.df) {
   x.list = dfRowToList(x.df, par.set, 1L)
+  # Shrink each parameter set
   par.set$pars = lapply(par.set$pars, function(par) {
     # only shrink when there is a value
     val = x.list[[par$id]]

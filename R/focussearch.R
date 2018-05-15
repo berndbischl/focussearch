@@ -20,6 +20,26 @@
 #'   Passed to \code{fn}.
 #' @return [\code{\link{ParamSet}}]
 #' @export
+#' @examples
+#' # Fully numeric space
+#' f = smoof::makeSphereFunction(2)
+#' fn = function(x) apply(x, 1, f)
+#' ctrl = makeFocusSearchControl(maxit = 5, restarts = 3, points = 100)
+#' ps = makeParamSet(
+#'   makeNumericParam("x1", lower = 0, upper = 10),
+#'   makeNumericParam("x2", lower = 0, upper = 10)
+#'   )
+#' doRandomSearch(fn, ps, ctrl)
+#' # Mixed space  
+#' f = smoof::makeSwiler2014Function()
+#' fn = function(x) {sapply(convertRowsToList(x, name.vector = TRUE), f)}
+#' ctrl = makeFocusSearchControl(maxit = 5, restarts = 3, points = 100)
+#' ps = makeParamSet(
+#'   makeDiscreteParam("x1", values = as.character(1:5)),
+#'   makeNumericParam("x2", lower = 0, upper = 1),
+#'   makeNumericParam("x3", lower = 0, upper = 1)
+#' )
+#' doRandomSearch(fn, ps, ctrl)
 focussearch = function(fn, par.set, control, show.info = FALSE, ...) {
   assertFunction(fn, args = "x")
   assertClass(par.set, "ParamSet")
@@ -29,13 +49,14 @@ focussearch = function(fn, par.set, control, show.info = FALSE, ...) {
   global.y = Inf
   # Restart restart.iter times
   for (restart.iter in seq_len(control$restarts)) {
-    if (show.info) sprintf("Multistart %f of %f \n", restart.iter, control$restarts)
+    if (show.info) catf("Multistart %i of %i \n", restart.iter, control$restarts)
     par.set.local = par.set
     # do iterations where we focus the region-of-interest around the current best point
     for (local.iter in seq_len(control$maxit)) {
       z = doRandomSearch(fn, par.set, control, ...)
       # if we found a new best value, store it
       if (z$y < global.y) {
+        if (show.info) catf("New best y: %f found for x: %s \n", z$y, paste0(z$x, collapse = ", "))
         global.x = z$x
         global.y = z$y
       }
