@@ -9,6 +9,9 @@ shrinkParSet(par.set, x.df)
 \arguments{
 \item{par.set}{[\code{\link[ParamHelpers]{ParamSet}}]\cr
 Param set.}
+
+\item{x.df}{[(`data.frame`)]\cr
+`data.frame` containing the x values to shrink around.}
 }
 \value{
 [\code{\link{ParamSet}}]

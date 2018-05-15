@@ -1,6 +1,8 @@
 Package: focussearch
 Title: Global optimization using focussed random search
-Description: Global optimization of arbitrary discrete and numeric functions using focussed random search
+Description: Global optimization of arbitrary discrete and numeric functions using focussed random search.
+The parameter set is iteratively shrunk to half its original size in the numeric case, or by dropping levels in
+the discrete case in order to allow for better exploration of important areas of the parameter space.
 Authors@R: c(person("Bernd", "Bischl", email = "bernd_bischl@gmx.net", role = c("aut", "cre")))
 URL: https://github.com/berndbischl/focussearch
 BugReports: https://github.com/berndbischl/focussearch/issues
