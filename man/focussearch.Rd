@@ -4,7 +4,7 @@
 \alias{focussearch}
 \title{Run focus search.}
 \usage{
-focussearch(fn, par.set, control, ...)
+focussearch(fn, par.set, control, show.info = FALSE, ...)
 }
 \arguments{
 \item{fn}{[\code{\link[smoof]{smoof_single_objective_function}}]\cr
@@ -16,6 +16,9 @@ Param set.}
 \item{control}{[\code{\link{FocusSearchControl}}]\cr
 Control object.}
 
+\item{show.info}{(`logical(1)`) \cr
+Should the parameter sets be printed while training? Defaults is `FALSE`.}
+
 \item{\ldots}{[any]\cr
 Passed to \code{fn}.}
 }
@@ -23,5 +26,34 @@ Passed to \code{fn}.}
 [\code{\link{ParamSet}}]
 }
 \description{
-fooo
+Perform random search on a region, that is sequentially shrinked around the best performing parameters.
+Parameters in (`FocusSearchControl`) allows for controlling the number of sampled points, restarts
+and the number of shrinking iterations.
+
+_points_ randomly sampled points from the parameter set are used in each iteration.
+Numeric values are shrinked to an interval around the best obtained value of half of
+the previous length in each iteration, while for discrete variables, a random, 
+not best-performing level is dropped.
+In order to improve method robustness, several restarts can be made.
+}
+\examples{
+# Fully numeric space
+f = smoof::makeSphereFunction(2)
+fn = function(x) apply(x, 1, f)
+ctrl = makeFocusSearchControl(maxit = 5, restarts = 3, points = 100)
+ps = makeParamSet(
+  makeNumericParam("x1", lower = 0, upper = 10),
+  makeNumericParam("x2", lower = 0, upper = 10)
+  )
+doRandomSearch(fn, ps, ctrl)
+# Mixed space  
+f = smoof::makeSwiler2014Function()
+fn = function(x) sapply(convertRowsToList(x, name.vector = TRUE), f)
+ctrl = makeFocusSearchControl(maxit = 5, restarts = 3, points = 100)
+ps = makeParamSet(
+  makeDiscreteParam("x1", values = as.character(1:5)),
+  makeNumericParam("x2", lower = 0, upper = 1),
+  makeNumericParam("x3", lower = 0, upper = 1)
+)
+doRandomSearch(fn, ps, ctrl)
 }

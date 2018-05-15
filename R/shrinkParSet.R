@@ -7,6 +7,8 @@
 #' not best-performing level is dropped.
 #'
 #' @template arg_parset
+#' @param x.df [(`data.frame`)]\cr
+#'   `data.frame` containing the x values to shrink around.
 #' @return [\code{\link{ParamSet}}]
 #' @export
 shrinkParSet = function(par.set, x.df) {

@@ -9,7 +9,7 @@ test_that("Random search in numeric spaces", {
     makeNumericParam("x1", lower = 0, upper = 10),
     makeNumericParam("x2", lower = 0, upper = 10)
   )
-  doRandomSearch(fn, ps, ctrl) 
+  z = doRandomSearch(fn, ps, ctrl) 
   expect_list(z, len = 2, types = c("double", "list"), names = "named")
 })
 
@@ -23,6 +23,6 @@ test_that("Random search in mixed spaces", {
     makeNumericParam("x2", lower = 0, upper = 1),
     makeNumericParam("x3", lower = 0, upper = 1)
   )
-  z <- doRandomSearch(fn, ps, ctrl)
+  z = doRandomSearch(fn, ps, ctrl)
   expect_list(z, len = 2, types = c("double", "list"), names = "named")
 })

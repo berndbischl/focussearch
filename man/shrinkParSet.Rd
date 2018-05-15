@@ -14,5 +14,8 @@ Param set.}
 [\code{\link{ParamSet}}]
 }
 \description{
-fooo
+Shrinks a paramset towards the best found point.
+Numeric values are shrinked to an interval around the best obtained value of half of
+the previous length in each iteration, while for discrete variables, a random, 
+not best-performing level is dropped.
 }

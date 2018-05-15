@@ -24,5 +24,6 @@ Default is 1.}
 [\code{\link{FocusSearchControl}}]
 }
 \description{
-fooo
+Creates a control object to be used with (`focussearch`). 
+See __Arguments__ for further details.
 }

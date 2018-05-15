@@ -1,8 +1,7 @@
 Package: focussearch
-Title: Global optimization using focussed random search.
-Description: Global optimization of arbitrary discrete and numeric functions using focussed random search.
-Authors@R: c(person("Bernd", "Bischl", email = "bernd_bischl@gmx.net",
-    role = c("aut", "cre")))
+Title: Global optimization using focussed random search
+Description: Global optimization of arbitrary discrete and numeric functions using focussed random search
+Authors@R: c(person("Bernd", "Bischl", email = "bernd_bischl@gmx.net", role = c("aut", "cre")))
 URL: https://github.com/berndbischl/focussearch
 BugReports: https://github.com/berndbischl/focussearch/issues
 License: BSD_2_clause + file LICENSE
