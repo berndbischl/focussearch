@@ -20,16 +20,16 @@ test_that("Mixed parameter spaces works", {
   # Artificial mixed function
   f = function(x) {
     y = makeSphereFunction(2)(as.numeric(x[1:2]))
-    if (x["x3"] == "TRUE")
-      y = 2 * y
+    if (x["x3"] == "2") y = 2 * y
+    return(y)
   }
   
-  f2 = function(x) apply(x, 1, f)
-  ctrl = makeFocusSearchControl(maxit = 5, restarts = 1, points = 100)
+  f2 = function(x) sapply(convertRowsToList(x, name.vector = TRUE), f)
+  ctrl = makeFocusSearchControl(maxit = 3, restarts = 1, points = 100)
   ps = makeParamSet(
     makeNumericParam("x1", lower = 0, upper = 10),
     makeNumericParam("x2", lower = 0, upper = 10),
-    makeLogicalParam("x3")
+    makeDiscreteParam("x3", values = as.character(1:2))
   )
   z = focussearch(f2, ps, ctrl)
   expect_list(z, len = 2, types = c("double", "list"))

@@ -32,7 +32,7 @@
 #' doRandomSearch(fn, ps, ctrl)
 #' # Mixed space  
 #' f = smoof::makeSwiler2014Function()
-#' fn = function(x) {sapply(convertRowsToList(x, name.vector = TRUE), f)}
+#' fn = function(x) sapply(convertRowsToList(x, name.vector = TRUE), f)
 #' ctrl = makeFocusSearchControl(maxit = 5, restarts = 3, points = 100)
 #' ps = makeParamSet(
 #'   makeDiscreteParam("x1", values = as.character(1:5)),
@@ -53,7 +53,7 @@ focussearch = function(fn, par.set, control, show.info = FALSE, ...) {
     par.set.local = par.set
     # do iterations where we focus the region-of-interest around the current best point
     for (local.iter in seq_len(control$maxit)) {
-      z = doRandomSearch(fn, par.set, control, ...)
+      z = doRandomSearch(fn, par.set.local, control, ...)
       # if we found a new best value, store it
       if (z$y < global.y) {
         if (show.info) catf("New best y: %f found for x: %s \n", z$y, paste0(z$x, collapse = ", "))

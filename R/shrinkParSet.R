@@ -17,6 +17,7 @@ shrinkParSet = function(par.set, x.df) {
     val = x.list[[par$id]]
     if (!isScalarNA(val)) {
       if (isNumeric(par)) {
+        if (!isFeasible(par, val)) stop(sprintf("Parameter value %s is not feasible for %s!", val, par$id))
         # shrink to range / 2, centered at val
         range = par$upper - par$lower
         par$lower = pmax(par$lower, val - (range / 4))

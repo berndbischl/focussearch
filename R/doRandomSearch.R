@@ -17,6 +17,7 @@ doRandomSearch = function(fn, par.set, control, ...) {
   newdesign = generateRandomDesign(control$points, par.set)
 
   # convert to param encoding our model was trained on and can use
+  # FIXME: Why do we convert logicals to factor?
   newdesign = convertDataFrameCols(newdesign, ints.as.num = TRUE, logicals.as.factor = TRUE)
   y = fn(newdesign, ...)
 

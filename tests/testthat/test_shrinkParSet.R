@@ -45,7 +45,7 @@ test_that("Shrinking mixed param sets", {
   expect_equal(ps3$pars$x2$lower, 9 - 10/4)
   expect_equal(ps3$pars$x2$upper, min(10, 9 + 10/4))
   expect_true("4" %in% names(ps3$pars$x3$values))
-  expect_equal(names(ps3$pars$x4$values) == as.character("TRUE"))
+  expect_true(names(ps3$pars$x4$values) == as.character("TRUE"))
 })
 
 
@@ -54,6 +54,6 @@ test_that("Shrinking integer param sets", {
   # x to one side of the interval
   ps4 = shrinkParSet(ps, data.frame("x1" = 7))
   expect_equal(ps4$pars$x1$lower, 4)
-  expect_equal(ps4$pars$x1$upper, 7)
+  expect_equal(ps4$pars$x1$upper, 10)
 })
   
