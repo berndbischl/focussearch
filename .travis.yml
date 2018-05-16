@@ -1,9 +1,15 @@
 # travis config
 
 language: r
+sudo: false
+dist: trusty
 
 r_github_packages:
+  - berndbischl/BBmisc
   - jimhester/covr
+  - berndbischl/ParamHelpers
+
+script: R CMD check .
 
 after_success:
   - Rscript -e 'library(covr);coveralls()'
