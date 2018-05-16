@@ -13,9 +13,12 @@
 #'   \item{y [numeric]}{s}
 #' @export
 doRandomSearch = function(fn, par.set, control, ...) {
+  
   # predict on design where NAs were imputed, but return proposed points with NAs
-  newdesign = generateRandomDesign(control$points, par.set)
+  newdesign = generateRandomDesign(control$points, par.set, trafo = TRUE)
 
+  # delete / change invalid params
+  newdesign = deleteNA(newdesign)
   # convert to param encoding our model was trained on and can use
   # FIXME: Why do we convert logicals to factor?
   newdesign = convertDataFrameCols(newdesign, ints.as.num = TRUE, logicals.as.factor = TRUE)
@@ -29,3 +32,17 @@ doRandomSearch = function(fn, par.set, control, ...) {
   list(x = best.x, y = best.y)
 }
 
+# Change invalid params, for example stemming from SVM hierarchies.
+deleteNA = function(newdesign) {
+  for(i in 1:ncol(newdesign)) {
+    if(is.numeric(newdesign[, i]))
+      newdesign[is.na(newdesign[, i]), i] = -10 - 1
+    if(is.factor(newdesign[, i])) {
+      newdesign[, i] = addNA(newdesign[, i])
+      newdesign[, i] = droplevels(newdesign[, i])
+    }
+    if(is.logical(newdesign[, i]))
+      newdesign[, i] = as.factor(newdesign[, i])
+  }
+  return(newdesign)
+}
