@@ -36,6 +36,21 @@ test_that("Mixed parameter spaces works", {
   expect_true(z$y < 0.1)
 })
 
+test_that("Hierarchical spaces work", {
+  set.seed(123L)
+  f = makeSphereFunction(3)
+  f2 = function(x) apply(x, 1, f)
+  ctrl = makeFocusSearchControl(maxit = 5, restarts = 1, points = 100)
+  ps = makeParamSet(
+    makeNumericParam("x1", lower = 0, upper = 10),
+    makeNumericParam("x2", lower = 0, upper = 10, requires = quote(x1 < 7)),
+    makeNumericParam("x3", lower = 0, upper = 10, requires = quote(x2 < 5))
+  )
+  z = focussearch(f2, ps, ctrl)
+  expect_list(z, len = 2, types = c("double", "list"))
+  expect_true(z$y < 0.1)
+})
+
 test_that("show.info works", {
   set.seed(123L)
   f = makeSphereFunction(2)
