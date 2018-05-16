@@ -25,5 +25,7 @@ Passed to \code{fn}.}
   \item{y [numeric]}{s}
 }
 \description{
-fooo
+Randomly sample a given number of points from the provided par.set,
+drop invalid params (for example due to hierarchical params) and 
+evaluate the function on the randomly sampled points.
 }

@@ -1,7 +1,9 @@
 #' @title Run a random search.
 #'
 #' @description
-#' fooo
+#' Randomly sample a given number of points from the provided par.set,
+#' drop invalid params (for example due to hierarchical params) and 
+#' evaluate the function on the randomly sampled points.
 #'
 #' @template arg_fn
 #' @template arg_parset
