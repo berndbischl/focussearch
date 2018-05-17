@@ -27,3 +27,12 @@ makeFocusSearchControl = function(points = 100L, maxit = 1L, restarts = 1L) {
   )
 }
 
+
+# Multiplies the number of points in the control with 
+# fraction.
+# Returns the control
+setPoints = function(control, fraction) {
+  control$points = control$points * fraction
+  return(control)
+}
+

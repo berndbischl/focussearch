@@ -73,11 +73,3 @@ focussearch = function(fn, par.set, control, show.info = FALSE, exploit = 0.8, .
   }
   list(y = global.y, x = global.x)
 }
-
-
-setPoints = function(control, fraction) {
-  control$points = control$points * fraction
-  return(control)
-}
-
-
