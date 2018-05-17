@@ -2,17 +2,22 @@
 
 language: r
 sudo: false
-dist: trusty
+cache: packages
+
+warnings_are_errors: true
+
+r:
+- devel
 
 r_github_packages:
   - berndbischl/BBmisc
-  - jimhester/covr
   - berndbischl/ParamHelpers
 
-script: R CMD check .
+before_install:
+  - Rscript -e 'if (length(find.package("devtools", quiet = TRUE)) == 0) install.packages("devtools")'
 
 after_success:
-  - Rscript -e 'library(covr);coveralls()'
+  - Rscript -e 'covr::codecov(type = "tests")'
 
 notifications:
   email:
