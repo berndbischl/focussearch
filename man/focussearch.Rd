@@ -4,7 +4,7 @@
 \alias{focussearch}
 \title{Run focus search.}
 \usage{
-focussearch(fn, par.set, control, show.info = FALSE, ...)
+focussearch(fn, par.set, control, show.info = FALSE, exploit = 0.8, ...)
 }
 \arguments{
 \item{fn}{[\code{\link[smoof]{smoof_single_objective_function}}]\cr
@@ -18,6 +18,9 @@ Control object.}
 
 \item{show.info}{(`logical(1)`) \cr
 Should the parameter sets be printed while training? Defaults is `FALSE`.}
+
+\item{exploit}{(`numeric`) \¢r
+Fraction of points to exploit in the local param space vs. in the global param space.}
 
 \item{\ldots}{[any]\cr
 Passed to \code{fn}.}
