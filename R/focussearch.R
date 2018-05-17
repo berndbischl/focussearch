@@ -24,23 +24,24 @@
 #' # Fully numeric space
 #' f = smoof::makeSphereFunction(2)
 #' fn = function(x) apply(x, 1, f)
-#' ctrl = makeFocusSearchControl(maxit = 5, restarts = 3, points = 100)
+#' ctrl = makeFocusSearchControl(maxit = 3, restarts = 5, points = 100)
 #' ps = makeParamSet(
 #'   makeNumericParam("x1", lower = 0, upper = 10),
 #'   makeNumericParam("x2", lower = 0, upper = 10)
 #'   )
-#' doRandomSearch(fn, ps, ctrl)
+#' focussearch(fn, ps, ctrl)
 #' # Mixed space  
-#' f = smoof::makeSwiler2014Function()
-#' ctrl = makeFocusSearchControl(maxit = 5, restarts = 3, points = 100)
+#' f2 = smoof::makeSwiler2014Function()
+#' fn2 = function(x) {sapply(BBmisc::convertRowsToList(x, name.vector = TRUE), f2)}
+#' ctrl = makeFocusSearchControl(maxit = 3, restarts = 5, points = 100)
 #' ps = makeParamSet(
 #'   makeDiscreteParam("x1", values = as.character(1:5)),
 #'   makeNumericParam("x2", lower = 0, upper = 1),
 #'   makeNumericParam("x3", lower = 0, upper = 1)
 #' )
-#' doRandomSearch(fn, ps, ctrl)
+#' focussearch(fn2, ps, ctrl)
 focussearch = function(fn, par.set, control, show.info = FALSE, ...) {
-  assertFunction(fn, args = "x")
+  assertFunction(fn)
   assertClass(par.set, "ParamSet")
   assertClass(control, "FocusSearchControl")
   assertFlag(show.info)
