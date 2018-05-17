@@ -1,5 +1,4 @@
 [![Build Status](https://travis-ci.org/berndbischl/focussearch.svg?branch=master)](https://travis-ci.org/berndbischl/focussearch)
-[![Coverage Status](https://img.shields.io/codecov/c/github/berndbischl/focussearch/master.svg?maxAge=600)](https://codecov.io/github/berndbischl/focussearch?branch=master)
 
 # focussearch
 
