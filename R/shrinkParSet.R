@@ -19,9 +19,14 @@ shrinkParSet = function(par.set, x.df) {
     val = x.list[[par$id]]
     if (!isScalarNA(val)) {
       if (isNumeric(par)) {
+        range = par$upper - par$lower
+        if (!is.null(par$trafo)) 
+          # Find val on the original scale
+          val = uniroot(function(x) {par$trafo(x) - val}, interval = par$trafo(c(par$lower, par$upper)),
+            tol = .Machine$double.eps^0.5 * range, maxiter = 10^4)$root
+        
         if (!isFeasible(par, val)) stop(sprintf("Parameter value %s is not feasible for %s!", val, par$id))
         # shrink to range / 2, centered at val
-        range = par$upper - par$lower
         par$lower = pmax(par$lower, val - (range / 4))
         par$upper = pmin(par$upper, val + (range / 4))
         if (isInteger(par)) {

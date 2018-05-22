@@ -56,4 +56,15 @@ test_that("Shrinking integer param sets", {
   expect_equal(ps4$pars$x1$lower, 4)
   expect_equal(ps4$pars$x1$upper, 10)
 })
-  
+
+test_that("Shrinking numeric param sets with trafo", {
+  set.seed(444)
+  ps = makeParamSet(
+    makeNumericParam("x1", lower = -10, upper = 10, trafo = function(x) 2^x),
+    makeNumericParam("x2", lower = -5, upper = 5, trafo = function(x) exp(x))
+  )
+  # central x
+  ps1 = shrinkParSet(ps, data.frame("x1" = 5, "x2" = 3))
+  expect_equal(ps1$pars$x1$upper -ps1$pars$x1$lower, 10)
+  expect_equal(ps1$pars$x2$upper -ps1$pars$x2$lower, 5)
+})
