@@ -27,7 +27,7 @@ test_that("Shrinking numeric param sets", {
   expect_equal(ps5$pars$x2$upper, min(10, 10 + 10/4))
   
   # x out of bounds
-  expect_error(shrinkParSet(ps, data.frame("x1" = -1, "x2" = 11)))
+  expect_error(shrinkParSet(ps, data.frame("x1" = -1, "x2" = 11), check.feasible = TRUE))
 })
 
 
@@ -63,8 +63,17 @@ test_that("Shrinking numeric param sets with trafo", {
     makeNumericParam("x1", lower = -10, upper = 10, trafo = function(x) 2^x),
     makeNumericParam("x2", lower = -5, upper = 5, trafo = function(x) exp(x))
   )
-  # central x
-  ps1 = shrinkParSet(ps, data.frame("x1" = 5, "x2" = 3))
-  expect_equal(ps1$pars$x1$upper -ps1$pars$x1$lower, 10)
-  expect_equal(ps1$pars$x2$upper -ps1$pars$x2$lower, 5)
+  # some x
+  ps1 = shrinkParSet(ps, data.frame("x1" = .006, "x2" = 1))
+  expect_true(ps1$pars$x1$upper - ps1$pars$x1$lower <= 10)
+  expect_true(ps1$pars$x2$upper - ps1$pars$x2$lower <= 5)
+  expect_true(ps1$pars$x1$upper - ps1$pars$x1$lower > 0)
+  expect_true(ps1$pars$x2$upper - ps1$pars$x2$lower > 0)
+  
+  # extrrme x
+  ps2 = shrinkParSet(ps, data.frame("x1" = 2^-10, "x2" = exp(5)))
+  expect_true(ps2$pars$x1$upper - ps2$pars$x1$lower <= 10)
+  expect_true(ps2$pars$x2$upper - ps2$pars$x2$lower <= 5)
+  expect_true(ps2$pars$x1$upper - ps2$pars$x1$lower > 0)
+  expect_true(ps2$pars$x2$upper - ps2$pars$x2$lower > 0)
 })

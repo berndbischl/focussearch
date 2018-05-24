@@ -4,7 +4,7 @@
 \alias{shrinkParSet}
 \title{Shrink param set towards a point.}
 \usage{
-shrinkParSet(par.set, x.df)
+shrinkParSet(par.set, x.df, check.feasible = FALSE)
 }
 \arguments{
 \item{par.set}{[\code{\link[ParamHelpers]{ParamSet}}]\cr
@@ -12,6 +12,9 @@ Param set.}
 
 \item{x.df}{[(`data.frame`)]\cr
 `data.frame` containing the x values to shrink around.}
+
+\item{check.feasible}{[`logical(1)`]\cr
+Should feasibility of the parameters be checked?}
 }
 \value{
 [\code{\link{ParamSet}}]

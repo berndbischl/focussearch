@@ -9,9 +9,11 @@
 #' @template arg_parset
 #' @param x.df [(`data.frame`)]\cr
 #'   `data.frame` containing the x values to shrink around.
+#' @param check.feasible [`logical(1)`]\cr
+#'   Should feasibility of the parameters be checked?
 #' @return [\code{\link{ParamSet}}]
 #' @export
-shrinkParSet = function(par.set, x.df) {
+shrinkParSet = function(par.set, x.df, check.feasible = FALSE) {
   x.list = dfRowToList(x.df, par.set, 1L)
   # shrink each parameter set
   par.set$pars = lapply(par.set$pars, function(par) {
@@ -22,10 +24,11 @@ shrinkParSet = function(par.set, x.df) {
         range = par$upper - par$lower
         if (!is.null(par$trafo)) 
           # Find val on the original scale
-          val = uniroot(function(x) {par$trafo(x) - val}, interval = par$trafo(c(par$lower, par$upper)),
+          val = uniroot(function(x) {par$trafo(x) - val}, interval = c(par$lower, par$upper),
             tol = .Machine$double.eps^0.5 * range, maxiter = 10^4)$root
+        if (check.feasible & !isFeasible(par, val))
+          stop(sprintf("Parameter value %s is not feasible for %s!", val, par$id))
         
-        if (!isFeasible(par, val)) stop(sprintf("Parameter value %s is not feasible for %s!", val, par$id))
         # shrink to range / 2, centered at val
         par$lower = pmax(par$lower, val - (range / 4))
         par$upper = pmin(par$upper, val + (range / 4))
