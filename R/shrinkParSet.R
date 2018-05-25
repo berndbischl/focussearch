@@ -30,10 +30,15 @@ shrinkParSet = function(par.set, x.df, check.feasible = FALSE) {
       if (isNumeric(par)) {
         range = par$upper - par$lower
         
-        if (!is.null(par$trafo)) 
-          # Find val on the original scale
-          val = uniroot(function(x) {par$trafo(x) - val}, interval = c(par$lower, par$upper),
-                        extendInt = "yes", tol = .Machine$double.eps^0.5 * range, maxiter = 10^4)$root
+        if (!is.null(par$trafo))
+          val = tryCatch({
+            # Find val on the original scale
+            val = uniroot(function(x) {par$trafo(x) - val}, interval = c(par$lower, par$upper),
+                          extendInt = "yes", tol = .Machine$double.eps^0.5 * range, maxiter = 10^4)$root
+          }, error = function(e) {
+            par$upper + 1
+          })
+
         
         # If it is not feasible we do nothing
         if (isFeasible(par, val)) {
