@@ -40,11 +40,12 @@
 #'   makeNumericParam("x3", lower = 0, upper = 1)
 #' )
 #' focussearch(fn2, ps, ctrl)
-focussearch = function(fn, par.set, control, show.info = FALSE, ...) {
+focussearch = function(fn, par.set, control, show.info = FALSE, exploit = 1, ...) {
   assertFunction(fn)
   assertClass(par.set, "ParamSet")
   assertClass(control, "FocusSearchControl")
   assertFlag(show.info)
+  assertNumber(exploit, lower = 0, upper = 1)
   
   global.y = Inf
   # Restart restart.iter times
@@ -53,7 +54,14 @@ focussearch = function(fn, par.set, control, show.info = FALSE, ...) {
     par.set.local = par.set
     # do iterations where we focus the region-of-interest around the current best point
     for (local.iter in seq_len(control$maxit)) {
-      z = doRandomSearch(fn, par.set.local, control, ...)
+      z = doRandomSearch(fn, par.set.local, setControlPoints(control, exploit), ...)
+      if (exploit < 1) {
+        # Explore full paramset with fraction of points
+        z.global = doRandomSearch(fn, par.set, setControlPoints(control, (1 - exploit)), ...)
+        # And set the global z to z
+        if(z.global$y < z$y) z <- z.global
+      }
+
       # if we found a new best value, store it
       if (z$y < global.y) {
         if (show.info) catf("New best y: %f found for x: %s \n", z$y, paste0(z$x, collapse = ", "))
@@ -61,14 +69,19 @@ focussearch = function(fn, par.set, control, show.info = FALSE, ...) {
         global.y = z$y
       }
       # now shrink ps so we search more locally
-      par.set.local = shrinkParSet(par.set.local, z$x)
+      par.set.local = shrinkParSet(par.set, par.set.local, z$x)
       if (show.info) print(par.set.local)
     }
   }
   list(y = global.y, x = global.x)
 }
 
-
-
-
+# Helper to quickly set points in the control
+# @template arg_control
+# points.frac (`numeric`) \©r
+#   Fraction of point to keep.
+setControlPoints = function(ctrl, points.frac) {
+  ctrl$points = ceiling(points.frac * ctrl$points)
+  return(ctrl)
+}
 

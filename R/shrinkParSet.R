@@ -7,6 +7,8 @@
 #' not best-performing level is dropped.
 #'
 #' @template arg_parset
+#' @param par.set.local [\code{\link[ParamHelpers]{ParamSet}}]\cr
+#'   Local(shrunk)
 #' @param x.df [(`data.frame`)]\cr
 #'   `data.frame` containing the x values to shrink around.
 #' @param check.feasible [`logical(1)`]\cr
@@ -15,26 +17,26 @@
 #'   no shrinking will be done.
 #' @return [\code{\link{ParamSet}}]
 #' @export
-shrinkParSet = function(par.set, x.df, check.feasible = FALSE) {
+shrinkParSet = function(par.set, par.set.local, x.df, check.feasible = FALSE) {
   x.list = dfRowToList(x.df, par.set, 1L)
   # shrink each parameter set
-  par.set$pars = lapply(par.set$pars, function(par) {
+  par.set$pars = Map(function(par, par.local) {
     # only shrink when there is a value
     val = x.list[[par$id]]
+    
     if (!isScalarNA(val)) {
-      
       if (check.feasible & !isFeasible(par, val)) {
         stop(sprintf("Parameter value %s is not feasible for %s!", val, par$id))
       }
       
       if (isNumeric(par)) {
-        range = par$upper - par$lower
+        range = par.local$upper - par.local$lower
         
         if (!is.null(par$trafo))
           val = tryCatch({
             # Find val on the original scale
             val = uniroot(function(x) {par$trafo(x) - val}, interval = c(par$lower, par$upper),
-                          extendInt = "yes", tol = .Machine$double.eps^0.5 * range, maxiter = 10^4)$root
+                          extendInt = "yes", tol = .Machine$double.eps^0.5 * sqrt(range), maxiter = 10^4)$root
           }, error = function(e) {
             par$upper + 1
           })
@@ -61,13 +63,16 @@ shrinkParSet = function(par.set, x.df, check.feasible = FALSE) {
             val.del = setdiff(val.names, as.character(val))
             # remove the parameter from param values
             to.del = which(val.names == sample(val.del, 1))
-            par$values = par$values[-to.del]
+            par$values = par.local$values[-to.del]
+            # Re add val if it was dropped earlier
+            browser()
+            if (!(val %in% par$values)) par$values = c(par$values, val)
           }
         }
       }
     }
     return(par)
-  })
+  }, par.set$pars, par.set.local$pars)
   return(par.set)
 }
 
