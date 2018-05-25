@@ -14,7 +14,9 @@ Param set.}
 `data.frame` containing the x values to shrink around.}
 
 \item{check.feasible}{[`logical(1)`]\cr
-Should feasibility of the parameters be checked?}
+Should feasibility of the parameters be checked?
+If feasibility is not checked, and invalid params are present,
+no shrinking will be done.}
 }
 \value{
 [\code{\link{ParamSet}}]
