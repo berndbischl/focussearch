@@ -2,7 +2,10 @@
 
 # focussearch
 
-Global optimization of blackbox functions by iteratively shrinking the parameter space around good points
+Global optimization of blackbox functions by iteratively shrinking the parameter space around good points.
+In each iteration `points` random points are drawn from the full param space, and the best point is selected
+for shrinkage. 
+Now supports trafo functions in the `ParamSet`.
 
 ```r
 # Search through a fully numeric param space
