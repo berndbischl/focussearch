@@ -65,8 +65,7 @@ shrinkParSet = function(par.set, par.set.local, x.df, check.feasible = FALSE) {
             to.del = which(val.names == sample(val.del, 1))
             par$values = par.local$values[-to.del]
             # Re add val if it was dropped earlier
-            browser()
-            if (!(val %in% par$values)) par$values = c(par$values, val)
+            if (!(val %in% par$values)) par$values[val] = val
           }
         }
       }
