@@ -48,27 +48,31 @@ focussearch = function(fn, par.set, control, show.info = FALSE, ...) {
   assertFlag(show.info)
   
   global.y = Inf
+  
   # Restart restart.iter times
   for (restart.iter in seq_len(control$restarts)) {
     if (show.info) catf("Multistart %i of %i \n", restart.iter, control$restarts)
     par.set.local = par.set
     # do iterations where we focus the region-of-interest around the current best point
     for (local.iter in seq_len(control$maxit)) {
-      z = doRandomSearch(fn, par.set.local, setControlPoints(control, control$exploit), ...)
+      # Explore shrunk param set
+      if (control$exploit > 0)
+        z = doRandomSearch(fn, par.set.local, setControlPoints(control, control$exploit), ...)
+      
+      # Explore full paramset with fraction of points
       if (control$exploit < 1) {
-        # Explore full paramset with fraction of points
         z.global = doRandomSearch(fn, par.set, setControlPoints(control, (1 - control$exploit)), ...)
-        # And set the global z to z
-        if(z.global$y < z$y) z <- z.global
+        # And set the global z to z in case the found point is better
+        if ((z.global$y < ifelse(exists("z"), z$y, Inf))) z <- z.global
       }
 
-      # if we found a new best value, store it
+      # If we found a new best value, store it
       if (z$y < global.y) {
         if (show.info) catf("New best y: %f found for x: %s \n", z$y, paste0(z$x, collapse = ", "))
         global.x = z$x
         global.y = z$y
       }
-      # now shrink ps so we search more locally
+      # Now shrink ps so we search more locally
       par.set.local = shrinkParSet(par.set, par.set.local, z$x)
       if (show.info) print(par.set.local)
     }

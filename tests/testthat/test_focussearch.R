@@ -64,3 +64,31 @@ test_that("show.info works", {
   expect_output(focussearch(f2, ps, ctrl, show.info = TRUE), regexp = "New best y:")
   expect_output(focussearch(f2, ps, ctrl, show.info = TRUE), regexp = "Type len Def")
 })
+
+test_that("Full random search works", {
+  set.seed(123L)
+  f = makeSphereFunction(2)
+  f2 = function(x) apply(x, 1, f)
+  ctrl = makeFocusSearchControl(maxit = 2, restarts = 1, points = 100, exploit = 0)
+  ps = makeParamSet(
+    makeNumericParam("x1", lower = 0, upper = 10),
+    makeNumericParam("x2", lower = 0, upper = 10)
+  )
+  z = focussearch(f2, ps, ctrl)
+  expect_list(z, len = 2, types = c("double", "list"))
+  expect_true(z$y < 2)
+})
+
+test_that("Mixed exploit/explore search works", {
+  set.seed(123L)
+  f = makeSphereFunction(2)
+  f2 = function(x) apply(x, 1, f)
+  ctrl = makeFocusSearchControl(maxit = 2, restarts = 1, points = 100, exploit = 0.7)
+  ps = makeParamSet(
+    makeNumericParam("x1", lower = 0, upper = 10),
+    makeNumericParam("x2", lower = 0, upper = 10)
+  )
+  z = focussearch(f2, ps, ctrl)
+  expect_list(z, len = 2, types = c("double", "list"))
+  expect_true(z$y < 1)
+})
