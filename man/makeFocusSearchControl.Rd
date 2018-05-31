@@ -5,7 +5,8 @@
 \alias{FocusSearchControl}
 \title{Create control object for focus search.}
 \usage{
-makeFocusSearchControl(points = 100L, maxit = 1L, restarts = 1L)
+makeFocusSearchControl(points = 100L, maxit = 1L, restarts = 1L,
+  exploit = 1)
 }
 \arguments{
 \item{points}{[\code{integer(1)}]\cr
@@ -18,7 +19,10 @@ Default is 100.}
 
 \item{restarts}{[\code{integer(1)}]\cr
 Number of independent restarts.
-Default is 1.}
+Default is 1.
+@param exploit (`numeric`) \¢r
+Fraction of points to exploit in the local param space vs. in the global param space.
+Defaults to 1 (full exploitation).}
 }
 \value{
 [\code{\link{FocusSearchControl}}]

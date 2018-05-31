@@ -13,26 +13,32 @@
 #' @param restarts [\code{integer(1)}]\cr
 #'   Number of independent restarts.
 #'   Default is 1.
+#'   @param exploit (`numeric`) \¢r
+#'   Fraction of points to exploit in the local param space vs. in the global param space.
+#'   Defaults to 1 (full exploitation).
 #' @return [\code{\link{FocusSearchControl}}]
 #' @aliases FocusSearchControl
 #' @export
-makeFocusSearchControl = function(points = 100L, maxit = 1L, restarts = 1L) {
+makeFocusSearchControl = function(points = 100L, maxit = 1L, restarts = 1L, exploit = 1) {
   points = asInt(points)
   maxit = asInt(maxit)
   restarts = asInt(restarts)
+  assertNumber(exploit, lower = 0, upper = 1)
   makeS3Obj("FocusSearchControl",
     points = points,
     maxit = maxit,
-    restarts = restarts
+    restarts = restarts,
+    exploit = exploit
   )
 }
 
 
-# Multiplies the number of points in the control with 
-# fraction.
-# Returns the control
-setPoints = function(control, fraction) {
-  control$points = control$points * fraction
-  return(control)
+# Helper to quickly set points in the control
+# @template arg_control
+# @param points.frac (`numeric`) \cr
+#   Fraction of point to keep in the control.
+setControlPoints = function(ctrl, points.frac) {
+  ctrl$points = ceiling(points.frac * ctrl$points)
+  return(ctrl)
 }
 

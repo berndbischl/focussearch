@@ -4,14 +4,23 @@
 \alias{shrinkParSet}
 \title{Shrink param set towards a point.}
 \usage{
-shrinkParSet(par.set, x.df)
+shrinkParSet(par.set, par.set.local, x.df, check.feasible = FALSE)
 }
 \arguments{
 \item{par.set}{[\code{\link[ParamHelpers]{ParamSet}}]\cr
 Param set.}
 
+\item{par.set.local}{[\code{\link[ParamHelpers]{ParamSet}}]\cr
+Local(shrunk)}
+
 \item{x.df}{[(`data.frame`)]\cr
 `data.frame` containing the x values to shrink around.}
+
+\item{check.feasible}{[`logical(1)`]\cr
+Should feasibility of the parameters be checked?
+If `TRUE`, throws an error for invalid params.
+If feasibility is not checked, and invalid params are present,
+no shrinking will be done.}
 }
 \value{
 [\code{\link{ParamSet}}]
