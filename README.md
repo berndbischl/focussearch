@@ -7,7 +7,7 @@ In each iteration `points` random points are drawn from the full param space, an
 for shrinkage. 
 Now supports trafo functions in the `ParamSet`.
 
-![focussearch visualiation](inst/visualisation.pdf)
+![focussearch visualiation](inst/visualisation.bmp)
 
 ```r
 # Search through a fully numeric param space
